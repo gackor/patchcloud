@@ -69,7 +69,7 @@ StatusCode 200
 
 Request
 
-```java
+```python
 {
    "apkFile":File
 }
@@ -88,7 +88,7 @@ Request:none
 Response
 
 StatusCode 200
-```java
+```python
 {
 
     "patchList":[
@@ -115,7 +115,7 @@ StatusCode 200
 
 Request
 
-```java
+```python
 {
    "oldName":string,
    "newName",string
