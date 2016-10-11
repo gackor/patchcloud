@@ -13,22 +13,29 @@ function start(route, handle) {
 
     function onRequest(request, response) {
         // 获取请求路径
-        var pathname = url.parse(request.url).pathname;
+        var URI = url.parse(request.url);
 
         // 关闭nodejs 默认访问 favicon.ico
-        if (!pathname.indexOf('/favicon.ico')) {
+        if (!URI.pathname.indexOf('/favicon.ico')) {
             return;
         };
+        if(URI.pathname=="/"){
+            response.writeHead(200, {"Content-type": "text/plain;charset=utf-8"});
+            response.write("ok！");
+            response.end();
+            return;
+        }
 
         // 收到来自 pathname 的请求
-        console.log("Request for " + pathname + " received.");
+        console.log("Request for " + URI.pathname + " received.");
 
         // 路由器处理
-        route(handle, pathname);
+        var result=route(handle, URI);
 
         // 返回数据
-        response.writeHead(200, {"Content-type": "text/plain"});
-        response.write("Hello world!");
+        response.writeHead(200,{'Content-Type': 'application/json;charset=utf-8'});
+        //response.writeHead(200, {"Content-type": "text/plain;charset=utf-8"});
+        response.write(JSON.stringify(result));
         response.end();
     }
 
