@@ -3,11 +3,15 @@ var server = require("./server"),
     appHandlers = require("./handler/appHandlers"),
     h5Handlers = require("./handler/h5Handlers"),
     multer  = require('multer'),
-    upload = multer({dest:'apks/'});
-
+    upload = multer({dest:'apks/'}),
+    bodyParser = require('body-parser');
 
 // handle 保存不同请求路径对应的处理方法
 var app = express();
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({extended: false}));
+// parse application/json
+app.use(bodyParser.json());
 app.all('*', server.accessAllow);
 app.post("/api/app/check",appHandlers.checkApk);
 

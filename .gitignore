@@ -38,5 +38,7 @@ jspm_packages
 .idea
 
 kidcares.keystore
-secrit
+secrit.txt
 /util/output
+*.apk
+*.apatch

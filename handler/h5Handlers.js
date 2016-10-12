@@ -6,11 +6,13 @@ function appList(req, res){
     var files=fs.readdirSync(apks);
     var filesList = [];
     files.forEach( function (file){
-        var states = fs.statSync(apks+file)
-        var obj = new Object();
-        obj.apkSize = states.size;//文件大小，以字节为单位
-        obj.apkName = file;//文件名
-        filesList.push(obj);
+        if (file != "zhanwei") {
+            var states = fs.statSync(apks + file)
+            var obj = new Object();
+            obj.apkSize = states.size;//文件大小，以字节为单位
+            obj.apkName = file;//文件名
+            filesList.push(obj);
+        }
     });
     console.log(filesList);
     res.json(filesList);
@@ -40,12 +42,14 @@ function upload(req,res){
 function patchList(req, res){
     var files=fs.readdirSync(patchs);
     var filesList = [];
-    files.forEach( function (file){
-        var states = fs.statSync(patchs+file)
-        var obj = new Object();
-        obj.patchSize = states.size;//文件大小，以字节为单位
-        obj.patchName = file;//文件名
-        filesList.push(obj);
+    files.forEach( function (file) {
+        if (file != "zhanwei") {
+            var states = fs.statSync(patchs + file)
+            var obj = new Object();
+            obj.patchSize = states.size;//文件大小，以字节为单位
+            obj.patchName = file;//文件名
+            filesList.push(obj);
+        }
     });
     console.log(filesList);
     res.json(filesList);
@@ -57,29 +61,33 @@ function delPatch(req, res){
 }
 
 function createPatch(req,res){
-    console.log("createPatch:"+req.body.oldName+"--"+req.body.newName);
-    var sec=fs.readFileSync("../util/secrit",{flag:'r+',encoding:'utf8'});
-    child_process.exec("../util/apkpatch.sh -f ../apks/"+req.body.newName+" -t ../apks/"+req.body.oldName+sec,
+    var sec=fs.readFileSync("util/secrit.txt",{flag:'r+',encoding:'utf8'});
+    console.log(req.body);
+
+    child_process.exec("util/apkpatch.sh -f apks/"+req.body.newName+" -t apks/"+req.body.oldName+sec,
         function (error, stdout, stderr) {
             if (error) {
                 console.log(error.stack);
                 console.log('Error code: '+error.code);
                 console.log('Signal received: '+error.signal);
+                res.status(403);
+                var obj=new Object();
+                obj.code=1;
+                obj.description=stderr;
+                res.json(obj);
+                console.log("create success!!!");
+                return;
             }
-            console.log('stdout: ' + stdout);
-            console.log('stderr: ' + stderr);
-            var files=fs.readdirSync("../util/output");
+            var files=fs.readdirSync("output");
             if(files.length>0){
                 files.forEach( function (file){
                     var arr=file.split(".");
                     if(arr.length==2&&arr[1]=="apatch"){
-                        fs.rename("../util/output/"+file,"../apatch/"+req.body.oldName+"-"+req.body.newName+".apatch");
+                        fs.rename("output/"+file,"patchs/"+(req.body.oldName+"-"+req.body.newName+".apatch").replace(/\.apk/g,""));
+                        res.json("{result:ok}");
+                        child_process.execSync("rm -rf output");
+                        return;
                     }
-                    var states = fs.statSync(patchs+file)
-                    var obj = new Object();
-                    obj.patchSize = states.size;//文件大小，以字节为单位
-                    obj.patchName = file;//文件名
-                    filesList.push(obj);
                 });
             }
 
