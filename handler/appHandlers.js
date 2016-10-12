@@ -1,5 +1,4 @@
-function checkApk(param){
-    var result={downloadUrl:"http://www.kidcares.cn"};
-    return result;
+function checkApk(req, res){
+    res.json("{downloadUrl:'http://www.kidcares.cn'}");
 }
 exports.checkApk = checkApk;
