@@ -22,8 +22,9 @@
 - 对部分机型不支持;
 - 方法的参数类型有限制;
 
+## [三、阿里百川hotfix与andfix的关系](http://baichuan.taobao.com/docs/doc.htm?spm=a3c0d.7629140.0.0.jSmyC7&treeId=234&articleId=105460&docType=1#s2)
 
-### 5、具体使用限制： 使用中不被允许的情况
+## [四、阿里hotfix使用中不被允许的情况](http://baichuan.taobao.com/docs/doc.htm?spm=a3c0d.7629140.0.0.bJzGBC&treeId=234&articleId=105457&docType=1#s3)
 - 暂时不支持新增方法、新增类
 - 不支持新增 Field
 - 不支持针对同一个方法的多次 patch，如果客户端已经有一个 patch 包在运行，则下一个 patch 不会立即生效。
@@ -34,16 +35,16 @@
 - 参数超过 8 的方法不能被 patch
 - 泛型参数的方法如果 patch 存在兼容性问题
 
+----
 
-
-
+## 五、原型图
 
 ![](https://github.com/gackor/patchcloud/raw/master/readimg/123111.png)  
 ![](https://github.com/gackor/patchcloud/raw/master/readimg/1234444.png)  
 
 
 
-# 该文档为服务端api
+## 六、该文档为服务端api
 
 -------------------
 
