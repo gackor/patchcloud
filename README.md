@@ -37,6 +37,8 @@
 
 ----
 
+### kidcaresFix/viapalmFix 与阿里百川hotfix及andfix的关系。
+
 ## 五、原型图
 
 ![](https://github.com/gackor/patchcloud/raw/master/readimg/123111.png)  
